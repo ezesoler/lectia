@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lectia · importar — Importación parcial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=Instrument+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root, [data-theme="light"] {
+    --paper: #F6F3EC; --raised: #EFEAE0; --card: #FFFDF8; --card-2: #F9F6F0; --chip: #F1EFE6;
+    --ink: #2A2521; --ink-hover: #3D3630; --ink-2: #6B6259; --on-ink: #F8F6F1;
+    --line: #E2DCD1; --line-2: #EFEAE0; --line-3: #DDD6C9; --dash: #D3CABA; --hover-line: #C9BFAD;
+    --cover-line: #E0D9CC; --cover-shadow: #E7E0D3; --track: #E9E3D8;
+    --accent: #A24A2E; --accent-2: #7E3720; --ok: #2F5D50; --star: #B6ABA0;
+    --k-bg: #EDE7DC; --k-fg: #6B5B45; --o-bg: #E4EBE7; --o-fg: #3E5F52;
+    --bar: rgba(246, 243, 236, .92); --stripe: rgba(42, 37, 33, .032);
+    --emboss: rgba(42, 37, 33, .05); --emboss-2: rgba(42, 37, 33, .07);
+    --overlay: rgba(42, 37, 33, .42); --drop: rgba(42, 37, 33, .4); --selection: #EFDCD3;
+    color-scheme: light;
+  }
+  [data-theme="dark"] {
+    --paper: #191510; --raised: #221D17; --card: #1E1A15; --card-2: #241F19; --chip: #2A241D;
+    --ink: #EFE9DF; --ink-hover: #FFFAF2; --ink-2: #A89D8E; --on-ink: #191510;
+    --line: #302A22; --line-2: #262019; --line-3: #3A332A; --dash: #3F3830; --hover-line: #4A4238;
+    --cover-line: #2E2820; --cover-shadow: #120F0B; --track: #2A241D;
+    --accent: #D98A66; --accent-2: #EBA383; --ok: #7FB49B; --star: #5C5245;
+    --k-bg: #2E2618; --k-fg: #C9B38C; --o-bg: #1C2B24; --o-fg: #93C0AA;
+    --bar: rgba(25, 21, 16, .9); --stripe: rgba(239, 233, 223, .05);
+    --emboss: rgba(0, 0, 0, .4); --emboss-2: rgba(0, 0, 0, .5);
+    --overlay: rgba(9, 7, 5, .62); --drop: rgba(0, 0, 0, .6); --selection: #4A3225;
+    color-scheme: dark;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); }
+  body { font-family: 'Instrument Sans', system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--accent-2); text-decoration: underline; }
+  ::selection { background: var(--selection); }
+
+  body { padding: 48px 40px 80px; }
+</style>
+</head>
+<body data-theme="light">
+<div id="1c" style="display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; align-items: baseline; gap: 10px;">
+        <span style="padding: 4px 9px; border-radius: 2px; background: var(--ink); color: var(--on-ink); font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .1em;">1c</span>
+        <span style="font-family: 'Instrument Sans', sans-serif; font-size: 17px; font-weight: 600; letter-spacing: -.018em;">Importación parcial</span>
+        <span style="font-size: 13.5px; color: var(--ink-2);">— aviso, no error: se importó lo válido</span>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+        <div style="width: 560px; max-width: 100%; display: flex; flex-direction: column; gap: 15px; padding: 24px; background: var(--card); border: 1px solid var(--line); border-radius: 4px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+            <span style="font-family: 'Instrument Sans', sans-serif; font-size: 19px; font-weight: 600; letter-spacing: -.015em;">Kindle</span>
+            <span style="padding: 4px 9px; border-radius: 2px; background: var(--k-bg); color: var(--k-fg); font-family: 'Space Grotesk', sans-serif; font-size: 10px; letter-spacing: .1em; text-transform: uppercase;">My Clippings.txt</span>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 13px; background: var(--chip); border: 1px solid var(--line); border-radius: 3px;">
+            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 11.5px; color: var(--ink);">4 libros · 59 resaltados</span>
+            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ok);">listo</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px; padding: 16px 18px; background: var(--card-2); border: 1px solid var(--line-3); border-left: 2px solid var(--accent); border-radius: 3px;">
+            <div style="display: flex; align-items: flex-start; gap: 11px;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 2px; color: var(--accent);"><circle cx="12" cy="12" r="9.2"></circle><path d="M12 7.6v5"></path><path d="M12 16.2h.01"></path></svg>
+              <div style="display: flex; flex-direction: column; gap: 5px;">
+                <span style="font-family: 'Instrument Sans', sans-serif; font-size: 15px; font-weight: 600; letter-spacing: -.012em;">12 registros quedaron afuera</span>
+                <p style="margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--ink-2); text-wrap: pretty;">El resto se importó sin problemas. Los marcadores no tienen texto, así que no se guardan.</p>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 5px; padding: 11px 12px; background: var(--card); border: 1px solid var(--line-2); border-radius: 2px; font-family: 'Space Grotesk', sans-serif; font-size: 11px; line-height: 1.6; color: var(--ink-2);">
+              <span>9 marcadores sin texto</span>
+              <span>2 registros truncados</span>
+              <span>1 registro sin título de libro</span>
+            </div>
+            <button style="align-self: flex-start; padding: 0; border: 0; background: none; font-size: 13.5px; color: var(--ink-2); text-decoration: underline; text-underline-offset: 3px;" style-hover="color: var(--ink);">Descargar el detalle</button>
+          </div>
+
+          <button style="align-self: flex-start; padding: 10px 16px; border: 1px solid var(--line-3); border-radius: 3px; background: transparent; font-size: 14px; color: var(--ink-2);" style-hover="border-color: var(--ink); color: var(--ink);">Reemplazar archivo</button>
+        </div>
+
+        <ul style="margin: 0; padding-left: 18px; width: 390px; display: flex; flex-direction: column; gap: 9px; font-size: 14px; line-height: 1.6; color: var(--ink-2);">
+          <li>Este caso <span style="color: var(--ink);">no</span> es un error: el chip de éxito y la etiqueta «listo» se mantienen.</li>
+          <li>Tratamiento más liviano: fondo <span style="color: var(--ink);">--card-2</span> y sólo un filo de 2 px en <span style="color: var(--ink);">--accent</span> a la izquierda, sin borde completo.</li>
+          <li>El desglose de descartes se muestra siempre expandido: son pocos y son la explicación del número.</li>
+          <li>El botón de continuar a la biblioteca queda habilitado.</li>
+        </ul>
+      </div>
+    </div>
+</body>
+</html>
