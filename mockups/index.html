@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lectia · referencia gráfica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=Instrument+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root, [data-theme="light"] {
+    --paper: #F6F3EC; --raised: #EFEAE0; --card: #FFFDF8; --card-2: #F9F6F0; --chip: #F1EFE6;
+    --ink: #2A2521; --ink-hover: #3D3630; --ink-2: #6B6259; --on-ink: #F8F6F1;
+    --line: #E2DCD1; --line-2: #EFEAE0; --line-3: #DDD6C9; --dash: #D3CABA; --hover-line: #C9BFAD;
+    --cover-line: #E0D9CC; --cover-shadow: #E7E0D3; --track: #E9E3D8;
+    --accent: #A24A2E; --accent-2: #7E3720; --ok: #2F5D50; --star: #B6ABA0;
+    --k-bg: #EDE7DC; --k-fg: #6B5B45; --o-bg: #E4EBE7; --o-fg: #3E5F52;
+    --bar: rgba(246, 243, 236, .92); --stripe: rgba(42, 37, 33, .032);
+    --emboss: rgba(42, 37, 33, .05); --emboss-2: rgba(42, 37, 33, .07);
+    --overlay: rgba(42, 37, 33, .42); --drop: rgba(42, 37, 33, .4); --selection: #EFDCD3;
+    color-scheme: light;
+  }
+  [data-theme="dark"] {
+    --paper: #191510; --raised: #221D17; --card: #1E1A15; --card-2: #241F19; --chip: #2A241D;
+    --ink: #EFE9DF; --ink-hover: #FFFAF2; --ink-2: #A89D8E; --on-ink: #191510;
+    --line: #302A22; --line-2: #262019; --line-3: #3A332A; --dash: #3F3830; --hover-line: #4A4238;
+    --cover-line: #2E2820; --cover-shadow: #120F0B; --track: #2A241D;
+    --accent: #D98A66; --accent-2: #EBA383; --ok: #7FB49B; --star: #5C5245;
+    --k-bg: #2E2618; --k-fg: #C9B38C; --o-bg: #1C2B24; --o-fg: #93C0AA;
+    --bar: rgba(25, 21, 16, .9); --stripe: rgba(239, 233, 223, .05);
+    --emboss: rgba(0, 0, 0, .4); --emboss-2: rgba(0, 0, 0, .5);
+    --overlay: rgba(9, 7, 5, .62); --drop: rgba(0, 0, 0, .6); --selection: #4A3225;
+    color-scheme: dark;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); }
+  body { font-family: 'Instrument Sans', system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  input, textarea { font: inherit; color: inherit; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--accent-2); text-decoration: underline; }
+  ::selection { background: var(--selection); }
+
+  body { padding: 64px 32px 90px; }
+  a:hover { border-color: var(--hover-line) !important; text-decoration: none; }
+</style>
+</head>
+<body data-theme="light">
+  <div style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 44px;">
+    <div style="display: flex; flex-direction: column; gap: 11px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="width: 40px; height: 2px; background: var(--accent);"></span>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-size: 10.5px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--accent);">Referencia gráfica</span>
+      </div>
+      <h1 style="margin: 0; font-family: 'Instrument Sans', sans-serif; font-size: 42px; font-weight: 700; letter-spacing: -.035em; line-height: 1.05;">Lectia · mockups</h1>
+      <p style="margin: 0; max-width: 620px; font-size: 15.5px; line-height: 1.65; color: var(--ink-2);">Referencia visual para la implementación. Los archivos son mockups HTML: sirven para medir, copiar valores y entender estados, no para pegar en producción.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+      <span style="font-family: 'Space Grotesk', sans-serif; font-size: 10.5px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-2);">Escritorio · app completa y una pantalla por archivo</span>
+      <a href="desktop/lectia-desktop.html" style="display: flex; align-items: baseline; gap: 12px; padding: 16px 18px; background: var(--raised); border: 1px solid var(--line-3); border-radius: 4px; color: var(--ink); text-decoration: none;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">00</span><span style="font-size: 15.5px; font-weight: 500;">App completa · navegable entre todas las secciones</span><span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);">1180 px</span></a>
+      <a href="desktop/01-login.html" style="display: flex; align-items: baseline; gap: 12px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); text-decoration: none;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">01</span><span style="font-size: 15.5px; font-weight: 500;">Login</span><span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);">1180 px</span></a>
+      <a href="desktop/02-importar.html" style="display: flex; align-items: baseline; gap: 12px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); text-decoration: none;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">02</span><span style="font-size: 15.5px; font-weight: 500;">Importar</span><span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);">1180 px</span></a>
+      <a href="desktop/03-inicio.html" style="display: flex; align-items: baseline; gap: 12px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); text-decoration: none;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">03</span><span style="font-size: 15.5px; font-weight: 500;">Inicio · biblioteca</span><span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);">1180 px</span></a>
+      <a href="desktop/04-detalle-libro.html" style="display: flex; align-items: baseline; gap: 12px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); text-decoration: none;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">04</span><span style="font-size: 15.5px; font-weight: 500;">Detalle del libro</span><span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);">1180 px</span></a>
+      <a href="desktop/05-resaltados.html" style="display: flex; align-items: baseline; gap: 12px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); text-decoration: none;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">05</span><span style="font-size: 15.5px; font-weight: 500;">Resaltados</span><span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);">1180 px</span></a>
+      <a href="desktop/06-listas.html" style="display: flex; align-items: baseline; gap: 12px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); text-decoration: none;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">06</span><span style="font-size: 15.5px; font-weight: 500;">Listas</span><span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);">1180 px</span></a>
+      <a href="desktop/07-estadisticas.html" style="display: flex; align-items: baseline; gap: 12px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); text-decoration: none;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">07</span><span style="font-size: 15.5px; font-weight: 500;">Estadísticas</span><span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);">1180 px</span></a>
+      <a href="desktop/08-busqueda.html" style="display: flex; align-items: baseline; gap: 12px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); text-decoration: none;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">08</span><span style="font-size: 15.5px; font-weight: 500;">Resultados de búsqueda</span><span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);">1180 px</span></a>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+      <span style="font-family: 'Space Grotesk', sans-serif; font-size: 10.5px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-2);">Mobile · una pantalla por archivo</span>
+      <a href="mobile/01-login.html" style="display: flex; align-items: baseline; gap: 12px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); text-decoration: none;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">01</span><span style="font-size: 15.5px; font-weight: 500;">Login</span><span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);">390 × 844</span></a>
+      <a href="mobile/02-importar.html" style="display: flex; align-items: baseline; gap: 12px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); text-decoration: none;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">02</span><span style="font-size: 15.5px; font-weight: 500;">Importar</span><span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);">390 × 844</span></a>
+      <a href="mobile/03-inicio.html" style="display: flex; align-items: baseline; gap: 12px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); text-decoration: none;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">03</span><span style="font-size: 15.5px; font-weight: 500;">Inicio</span><span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);">390 × 844</span></a>
+      <a href="mobile/04-detalle-libro.html" style="display: flex; align-items: baseline; gap: 12px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); text-decoration: none;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">04</span><span style="font-size: 15.5px; font-weight: 500;">Detalle del libro</span><span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);">390 × 844</span></a>
+      <a href="mobile/05-resaltados.html" style="display: flex; align-items: baseline; gap: 12px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); text-decoration: none;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">05</span><span style="font-size: 15.5px; font-weight: 500;">Resaltados</span><span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);">390 × 844</span></a>
+      <a href="mobile/06-listas.html" style="display: flex; align-items: baseline; gap: 12px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); text-decoration: none;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">06</span><span style="font-size: 15.5px; font-weight: 500;">Listas</span><span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);">390 × 844</span></a>
+      <a href="mobile/07-estadisticas.html" style="display: flex; align-items: baseline; gap: 12px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); text-decoration: none;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">07</span><span style="font-size: 15.5px; font-weight: 500;">Estadísticas</span><span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);">390 × 844</span></a>
+      <a href="mobile/08-busqueda.html" style="display: flex; align-items: baseline; gap: 12px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); text-decoration: none;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">08</span><span style="font-size: 15.5px; font-weight: 500;">Búsqueda</span><span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);">390 × 844</span></a>
+    </div>
+  </div>
+</body>
+</html>

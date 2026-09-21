@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lectia mobile · Login</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=Instrument+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root, [data-theme="light"] {
+    --paper: #F6F3EC; --raised: #EFEAE0; --card: #FFFDF8; --card-2: #F9F6F0; --chip: #F1EFE6;
+    --ink: #2A2521; --ink-hover: #3D3630; --ink-2: #6B6259; --on-ink: #F8F6F1;
+    --line: #E2DCD1; --line-2: #EFEAE0; --line-3: #DDD6C9; --dash: #D3CABA; --hover-line: #C9BFAD;
+    --cover-line: #E0D9CC; --cover-shadow: #E7E0D3; --track: #E9E3D8;
+    --accent: #A24A2E; --accent-2: #7E3720; --ok: #2F5D50; --star: #B6ABA0;
+    --k-bg: #EDE7DC; --k-fg: #6B5B45; --o-bg: #E4EBE7; --o-fg: #3E5F52;
+    --bar: rgba(246, 243, 236, .92); --stripe: rgba(42, 37, 33, .032);
+    --emboss: rgba(42, 37, 33, .05); --emboss-2: rgba(42, 37, 33, .07);
+    --overlay: rgba(42, 37, 33, .42); --drop: rgba(42, 37, 33, .4); --selection: #EFDCD3;
+    color-scheme: light;
+  }
+  [data-theme="dark"] {
+    --paper: #191510; --raised: #221D17; --card: #1E1A15; --card-2: #241F19; --chip: #2A241D;
+    --ink: #EFE9DF; --ink-hover: #FFFAF2; --ink-2: #A89D8E; --on-ink: #191510;
+    --line: #302A22; --line-2: #262019; --line-3: #3A332A; --dash: #3F3830; --hover-line: #4A4238;
+    --cover-line: #2E2820; --cover-shadow: #120F0B; --track: #2A241D;
+    --accent: #D98A66; --accent-2: #EBA383; --ok: #7FB49B; --star: #5C5245;
+    --k-bg: #2E2618; --k-fg: #C9B38C; --o-bg: #1C2B24; --o-fg: #93C0AA;
+    --bar: rgba(25, 21, 16, .9); --stripe: rgba(239, 233, 223, .05);
+    --emboss: rgba(0, 0, 0, .4); --emboss-2: rgba(0, 0, 0, .5);
+    --overlay: rgba(9, 7, 5, .62); --drop: rgba(0, 0, 0, .6); --selection: #4A3225;
+    color-scheme: dark;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); }
+  body { font-family: 'Instrument Sans', system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  input, textarea { font: inherit; color: inherit; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--accent-2); text-decoration: underline; }
+  ::selection { background: var(--selection); }
+
+  body { min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 56px 24px 80px; }
+</style>
+</head>
+<body data-theme="light">
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; align-items: baseline; gap: 10px; max-width: 390px;">
+        <span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">01</span>
+        <span style="font-family: 'Instrument Sans', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: -.018em;">Login</span>
+        <span style="font-size: 13px; color: var(--ink-2);">— portada y Google</span>
+      </div>
+      <div style="width: 390px; height: 844px; position: relative; display: flex; flex-direction: column; overflow: hidden; background: var(--paper); border: 1px solid var(--line-3); border-radius: 42px; box-shadow: 0 0 0 8px var(--raised), 0 30px 60px -34px var(--drop);">
+        <div style="flex: none; height: 48px; display: flex; align-items: center; justify-content: space-between; padding: 16px 28px 0;">
+          <span style="font-size: 13px; font-weight: 600;">9:41</span>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="display: flex; align-items: flex-end; gap: 1.5px;"><span style="width: 3px; height: 4px; border-radius: 1px; background: var(--ink);"></span><span style="width: 3px; height: 6px; border-radius: 1px; background: var(--ink);"></span><span style="width: 3px; height: 8px; border-radius: 1px; background: var(--ink);"></span><span style="width: 3px; height: 10px; border-radius: 1px; background: var(--ink);"></span></span>
+            <span style="display: flex; align-items: center; gap: 1.5px;"><span style="display: block; width: 20px; height: 10px; padding: 1.5px; border: 1px solid var(--ink); border-radius: 3px;"><span style="display: block; width: 72%; height: 100%; border-radius: 1px; background: var(--ink);"></span></span><span style="width: 1.5px; height: 4px; border-radius: 0 1px 1px 0; background: var(--ink);"></span></span>
+          </div>
+        </div>
+        <div style="flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden;">
+          <div style="flex: none; display: flex; flex-direction: column; gap: 30px; padding: 18px 24px 34px; background: var(--raised); background-image: repeating-linear-gradient(0deg, var(--stripe) 0 1px, transparent 1px 26px); border-bottom: 1px solid var(--line-3);">
+            <div style="display: flex; align-items: baseline; gap: 9px;">
+              <span style="font-family: 'EB Garamond', serif; font-size: 28px; font-weight: 600; letter-spacing: -.01em;">Lectia.</span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2);">v0.1</span>
+              <span style="margin-left: auto; display: inline-flex; align-items: center; gap: 8px;">
+                <span style="display: flex; color: var(--ink-2);"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="display: block;"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8Z" fill="currentColor"></path></svg></span>
+                <span style="display: block; width: 44px; height: 26px; padding: 2.5px; border-radius: 999px; background: var(--track); box-shadow: inset 0 0 0 1px var(--line-3);"><span style="display: block; width: 21px; height: 21px; border-radius: 50%; background: var(--card); box-shadow: 0 1px 3px var(--emboss-2);"></span></span>
+                <span style="display: flex; color: var(--ink);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" style="display: block;"><circle cx="12" cy="12" r="4.6" fill="currentColor" stroke="none"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"></line><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"></line><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"></line></svg></span>
+              </span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 11px;">
+              <span style="width: 36px; height: 2px; background: var(--accent);"></span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--accent);">Kindle + Kobo</span>
+            </div>
+            <h2 style="margin: 0; font-family: 'Instrument Sans', sans-serif; font-size: 40px; line-height: 1.02; font-weight: 700; letter-spacing: -.04em;">Tus lecturas,<br />tus notas,<br /><span style="display: inline; padding: 0 .08em; background: linear-gradient(transparent 62%, var(--selection) 62%); -webkit-box-decoration-break: clone; box-decoration-break: clone;">tuyas para siempre.</span></h2>
+            <p style="margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink-2); text-wrap: pretty;">Lectia reúne los resaltados de tu Kindle y tu Kobo en un solo lugar, con búsqueda real y exportación a Markdown.</p>
+          </div>
+          <div style="flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 22px; padding: 28px 24px 24px;">
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <h1 style="margin: 0; font-family: 'Instrument Sans', sans-serif; font-size: 25px; font-weight: 600; letter-spacing: -.025em;">Entrar a tu biblioteca</h1>
+              <p style="margin: 0; font-size: 14.5px; line-height: 1.6; color: var(--ink-2);">Usamos tu cuenta de Google para guardar tus notas. Sin contraseñas nuevas.</p>
+            </div>
+            <button style="display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; min-height: 52px; padding: 15px 18px; border: 1px solid var(--ink); border-radius: 3px; background: var(--ink); color: var(--on-ink); font-size: 15.5px; font-weight: 500;">
+              <span style="display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--on-ink); color: var(--ink); font-family: 'EB Garamond', serif; font-size: 14px; font-weight: 600;">G</span>
+              Continuar con Google
+            </button>
+            <p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 11px; line-height: 1.6; letter-spacing: .02em; color: var(--ink-2);">Tus archivos se procesan en el teléfono. Nada se sube sin que lo pidas.</p>
+          </div>
+        </div>
+        <div style="flex: none; display: flex; justify-content: center; padding: 8px 0 9px;"><span style="width: 134px; height: 5px; border-radius: 999px; background: var(--ink); opacity: .26;"></span></div>
+      </div>
+    </div>
+</body>
+</html>

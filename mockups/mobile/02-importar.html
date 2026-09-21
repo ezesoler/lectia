@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lectia mobile · Importar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=Instrument+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root, [data-theme="light"] {
+    --paper: #F6F3EC; --raised: #EFEAE0; --card: #FFFDF8; --card-2: #F9F6F0; --chip: #F1EFE6;
+    --ink: #2A2521; --ink-hover: #3D3630; --ink-2: #6B6259; --on-ink: #F8F6F1;
+    --line: #E2DCD1; --line-2: #EFEAE0; --line-3: #DDD6C9; --dash: #D3CABA; --hover-line: #C9BFAD;
+    --cover-line: #E0D9CC; --cover-shadow: #E7E0D3; --track: #E9E3D8;
+    --accent: #A24A2E; --accent-2: #7E3720; --ok: #2F5D50; --star: #B6ABA0;
+    --k-bg: #EDE7DC; --k-fg: #6B5B45; --o-bg: #E4EBE7; --o-fg: #3E5F52;
+    --bar: rgba(246, 243, 236, .92); --stripe: rgba(42, 37, 33, .032);
+    --emboss: rgba(42, 37, 33, .05); --emboss-2: rgba(42, 37, 33, .07);
+    --overlay: rgba(42, 37, 33, .42); --drop: rgba(42, 37, 33, .4); --selection: #EFDCD3;
+    color-scheme: light;
+  }
+  [data-theme="dark"] {
+    --paper: #191510; --raised: #221D17; --card: #1E1A15; --card-2: #241F19; --chip: #2A241D;
+    --ink: #EFE9DF; --ink-hover: #FFFAF2; --ink-2: #A89D8E; --on-ink: #191510;
+    --line: #302A22; --line-2: #262019; --line-3: #3A332A; --dash: #3F3830; --hover-line: #4A4238;
+    --cover-line: #2E2820; --cover-shadow: #120F0B; --track: #2A241D;
+    --accent: #D98A66; --accent-2: #EBA383; --ok: #7FB49B; --star: #5C5245;
+    --k-bg: #2E2618; --k-fg: #C9B38C; --o-bg: #1C2B24; --o-fg: #93C0AA;
+    --bar: rgba(25, 21, 16, .9); --stripe: rgba(239, 233, 223, .05);
+    --emboss: rgba(0, 0, 0, .4); --emboss-2: rgba(0, 0, 0, .5);
+    --overlay: rgba(9, 7, 5, .62); --drop: rgba(0, 0, 0, .6); --selection: #4A3225;
+    color-scheme: dark;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); }
+  body { font-family: 'Instrument Sans', system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  input, textarea { font: inherit; color: inherit; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--accent-2); text-decoration: underline; }
+  ::selection { background: var(--selection); }
+
+  body { min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 56px 24px 80px; }
+</style>
+</head>
+<body data-theme="light">
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; align-items: baseline; gap: 10px; max-width: 390px;">
+        <span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">02</span>
+        <span style="font-family: 'Instrument Sans', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: -.018em;">Importar</span>
+        <span style="font-size: 13px; color: var(--ink-2);">— archivos desde el teléfono</span>
+      </div>
+      <div style="width: 390px; height: 844px; position: relative; display: flex; flex-direction: column; overflow: hidden; background: var(--paper); border: 1px solid var(--line-3); border-radius: 42px; box-shadow: 0 0 0 8px var(--raised), 0 30px 60px -34px var(--drop);">
+        <div style="flex: none; height: 48px; display: flex; align-items: center; justify-content: space-between; padding: 16px 28px 0;">
+          <span style="font-size: 13px; font-weight: 600;">9:41</span>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="display: flex; align-items: flex-end; gap: 1.5px;"><span style="width: 3px; height: 4px; border-radius: 1px; background: var(--ink);"></span><span style="width: 3px; height: 6px; border-radius: 1px; background: var(--ink);"></span><span style="width: 3px; height: 8px; border-radius: 1px; background: var(--ink);"></span><span style="width: 3px; height: 10px; border-radius: 1px; background: var(--ink);"></span></span>
+            <span style="display: flex; align-items: center; gap: 1.5px;"><span style="display: block; width: 20px; height: 10px; padding: 1.5px; border: 1px solid var(--ink); border-radius: 3px;"><span style="display: block; width: 72%; height: 100%; border-radius: 1px; background: var(--ink);"></span></span><span style="width: 1.5px; height: 4px; border-radius: 0 1px 1px 0; background: var(--ink);"></span></span>
+          </div>
+        </div>
+        <div style="flex: none; display: flex; align-items: center; gap: 12px; padding: 6px 18px 12px; background: var(--bar); border-bottom: 1px solid var(--line);">
+          <button style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0; border: 0; background: none; color: var(--ink);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+          <span style="font-family: 'Instrument Sans', sans-serif; font-size: 17px; font-weight: 600; letter-spacing: -.018em;">Importar</span>
+          <span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2);">Paso 1 de 1</span>
+        </div>
+        <div style="flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 16px; padding: 20px 18px 18px; overflow: hidden;">
+          <p style="margin: 0; font-size: 14.5px; line-height: 1.6; color: var(--ink-2); text-wrap: pretty;">Conectá el lector por cable o abrí el archivo desde iCloud. Podés importar los dos y en cualquier orden.</p>
+
+          <div style="display: flex; flex-direction: column; gap: 14px; padding: 18px; background: var(--card); border: 1px solid var(--line); border-radius: 4px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+              <span style="font-family: 'Instrument Sans', sans-serif; font-size: 17px; font-weight: 600; letter-spacing: -.015em;">Kindle</span>
+              <span style="padding: 4px 9px; border-radius: 2px; background: var(--k-bg); color: var(--k-fg); font-family: 'Space Grotesk', sans-serif; font-size: 10px; letter-spacing: .1em; text-transform: uppercase;">My Clippings.txt</span>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; background: var(--chip); border: 1px solid var(--line); border-radius: 3px;">
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 11.5px;">4 libros · 63 resaltados</span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ok);">listo</span>
+            </div>
+            <button style="align-self: flex-start; min-height: 44px; padding: 11px 16px; border: 1px solid var(--line-3); border-radius: 3px; background: transparent; font-size: 14px; color: var(--ink-2);">Reemplazar archivo</button>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 14px; padding: 18px; background: var(--card); border: 1px solid var(--line); border-radius: 4px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+              <span style="font-family: 'Instrument Sans', sans-serif; font-size: 17px; font-weight: 600; letter-spacing: -.015em;">Kobo</span>
+              <span style="padding: 4px 9px; border-radius: 2px; background: var(--o-bg); color: var(--o-fg); font-family: 'Space Grotesk', sans-serif; font-size: 10px; letter-spacing: .1em; text-transform: uppercase;">KoboReader.sqlite</span>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 26px 18px; border: 1px dashed var(--dash); border-radius: 3px; text-align: center;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color: var(--ink-2);"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M4 20h16"></path></svg>
+              <span style="font-size: 14.5px; line-height: 1.5; color: var(--ink-2);">Todavía sin archivo de Kobo</span>
+              <button style="min-height: 46px; padding: 12px 20px; border: 1px solid var(--ink); border-radius: 3px; background: transparent; font-size: 14.5px; font-weight: 500;">Elegir archivo</button>
+            </div>
+            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; line-height: 1.65; letter-spacing: .02em; color: var(--ink-2);">Está en la carpeta oculta <span style="color: var(--ink);">.kobo</span> del lector.</span>
+          </div>
+
+          <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px;">
+            <button style="width: 100%; min-height: 52px; padding: 15px; border: 1px solid var(--ink); border-radius: 3px; background: var(--ink); color: var(--on-ink); font-size: 15.5px; font-weight: 500;">Ver mi biblioteca</button>
+          </div>
+        </div>
+        <div style="flex: none; display: flex; justify-content: center; padding: 8px 0 9px;"><span style="width: 134px; height: 5px; border-radius: 999px; background: var(--ink); opacity: .26;"></span></div>
+      </div>
+    </div>
+</body>
+</html>

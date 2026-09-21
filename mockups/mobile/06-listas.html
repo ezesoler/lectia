@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lectia mobile · Listas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=Instrument+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root, [data-theme="light"] {
+    --paper: #F6F3EC; --raised: #EFEAE0; --card: #FFFDF8; --card-2: #F9F6F0; --chip: #F1EFE6;
+    --ink: #2A2521; --ink-hover: #3D3630; --ink-2: #6B6259; --on-ink: #F8F6F1;
+    --line: #E2DCD1; --line-2: #EFEAE0; --line-3: #DDD6C9; --dash: #D3CABA; --hover-line: #C9BFAD;
+    --cover-line: #E0D9CC; --cover-shadow: #E7E0D3; --track: #E9E3D8;
+    --accent: #A24A2E; --accent-2: #7E3720; --ok: #2F5D50; --star: #B6ABA0;
+    --k-bg: #EDE7DC; --k-fg: #6B5B45; --o-bg: #E4EBE7; --o-fg: #3E5F52;
+    --bar: rgba(246, 243, 236, .92); --stripe: rgba(42, 37, 33, .032);
+    --emboss: rgba(42, 37, 33, .05); --emboss-2: rgba(42, 37, 33, .07);
+    --overlay: rgba(42, 37, 33, .42); --drop: rgba(42, 37, 33, .4); --selection: #EFDCD3;
+    color-scheme: light;
+  }
+  [data-theme="dark"] {
+    --paper: #191510; --raised: #221D17; --card: #1E1A15; --card-2: #241F19; --chip: #2A241D;
+    --ink: #EFE9DF; --ink-hover: #FFFAF2; --ink-2: #A89D8E; --on-ink: #191510;
+    --line: #302A22; --line-2: #262019; --line-3: #3A332A; --dash: #3F3830; --hover-line: #4A4238;
+    --cover-line: #2E2820; --cover-shadow: #120F0B; --track: #2A241D;
+    --accent: #D98A66; --accent-2: #EBA383; --ok: #7FB49B; --star: #5C5245;
+    --k-bg: #2E2618; --k-fg: #C9B38C; --o-bg: #1C2B24; --o-fg: #93C0AA;
+    --bar: rgba(25, 21, 16, .9); --stripe: rgba(239, 233, 223, .05);
+    --emboss: rgba(0, 0, 0, .4); --emboss-2: rgba(0, 0, 0, .5);
+    --overlay: rgba(9, 7, 5, .62); --drop: rgba(0, 0, 0, .6); --selection: #4A3225;
+    color-scheme: dark;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); }
+  body { font-family: 'Instrument Sans', system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  input, textarea { font: inherit; color: inherit; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--accent-2); text-decoration: underline; }
+  ::selection { background: var(--selection); }
+
+  body { min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 56px 24px 80px; }
+</style>
+</head>
+<body data-theme="light">
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; align-items: baseline; gap: 10px; max-width: 390px;">
+        <span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .14em; color: var(--accent);">06</span>
+        <span style="font-family: 'Instrument Sans', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: -.018em;">Listas</span>
+        <span style="font-size: 13px; color: var(--ink-2);">— tarjetas o listado</span>
+      </div>
+      <div style="width: 390px; height: 844px; position: relative; display: flex; flex-direction: column; overflow: hidden; background: var(--paper); border: 1px solid var(--line-3); border-radius: 42px; box-shadow: 0 0 0 8px var(--raised), 0 30px 60px -34px var(--drop);">
+        <div style="flex: none; height: 48px; display: flex; align-items: center; justify-content: space-between; padding: 16px 28px 0;">
+          <span style="font-size: 13px; font-weight: 600;">9:41</span>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="display: flex; align-items: flex-end; gap: 1.5px;"><span style="width: 3px; height: 4px; border-radius: 1px; background: var(--ink);"></span><span style="width: 3px; height: 6px; border-radius: 1px; background: var(--ink);"></span><span style="width: 3px; height: 8px; border-radius: 1px; background: var(--ink);"></span><span style="width: 3px; height: 10px; border-radius: 1px; background: var(--ink);"></span></span>
+            <span style="display: flex; align-items: center; gap: 1.5px;"><span style="display: block; width: 20px; height: 10px; padding: 1.5px; border: 1px solid var(--ink); border-radius: 3px;"><span style="display: block; width: 72%; height: 100%; border-radius: 1px; background: var(--ink);"></span></span><span style="width: 1.5px; height: 4px; border-radius: 0 1px 1px 0; background: var(--ink);"></span></span>
+          </div>
+        </div>
+        <div style="flex: none; display: flex; flex-direction: column; gap: 12px; padding: 4px 18px 0; background: var(--bar); border-bottom: 1px solid var(--line);">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-family: 'Instrument Sans', sans-serif; font-size: 21px; font-weight: 600; letter-spacing: -.028em;">Tus listas</span>
+            <button style="margin-left: auto; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line-3); background: var(--raised); font-family: 'EB Garamond', serif; font-size: 16px; font-weight: 600;">M</button>
+          </div>
+          <div style="display: flex; gap: 4px;">
+            <button style="display: flex; align-items: baseline; gap: 7px; padding: 8px 12px 12px; border: 0; background: none; font-size: 14px; color: var(--ink); border-bottom: 2px solid var(--accent);"><span>Deseo leer</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; color: var(--ink-2);">6</span></button>
+            <button style="display: flex; align-items: baseline; gap: 7px; padding: 8px 12px 12px; border: 0; background: none; font-size: 14px; color: var(--ink-2); border-bottom: 2px solid transparent;"><span>Leyendo</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; color: var(--ink-2);">2</span></button>
+            <button style="display: flex; align-items: baseline; gap: 7px; padding: 8px 12px 12px; border: 0; background: none; font-size: 14px; color: var(--ink-2); border-bottom: 2px solid transparent;"><span>Leídos</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; color: var(--ink-2);">9</span></button>
+          </div>
+        </div>
+        <div style="flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 14px; padding: 14px 0 8px; overflow: hidden;">
+          <div style="flex: none; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 18px;">
+            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);">6 libros anotados</span>
+            <div style="display: flex; border: 1px solid var(--line); border-radius: 3px; overflow: hidden; background: var(--card);">
+              <button style="min-height: 36px; padding: 8px 12px; border: 0; background: var(--ink); color: var(--on-ink); font-size: 12.5px;">Tarjetas</button>
+              <button style="min-height: 36px; padding: 8px 12px; border: 0; border-left: 1px solid var(--line); background: transparent; color: var(--ink-2); font-size: 12.5px;">Listado</button>
+            </div>
+          </div>
+          <div style="flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 12px; padding: 0 18px; overflow: hidden;">
+            <div style="display: flex; gap: 14px; padding: 16px; background: var(--card); border: 1px solid var(--line); border-radius: 4px;">
+              <div style="width: 46px; height: 68px; flex: none; background: var(--raised); background-image: repeating-linear-gradient(0deg, var(--stripe) 0 1px, transparent 1px 9px); border: 1px solid var(--cover-line); border-radius: 1px;"></div>
+              <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px;">
+                <span style="font-family: 'Instrument Sans', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: -.014em; line-height: 1.3;">Tokio blues</span>
+                <span style="font-size: 13.5px; color: var(--ink-2);">Haruki Murakami</span>
+                <span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .03em; color: var(--ink-2);">1987 · 384 pág. · Ficción</span>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; padding-top: 8px;">
+                  <button style="min-height: 40px; padding: 10px 12px; border: 1px solid var(--line-3); border-radius: 3px; background: transparent; font-size: 12.5px; color: var(--ink-2);">Empezar a leer</button>
+                  <button style="min-height: 40px; padding: 10px 12px; border: 1px solid var(--line-3); border-radius: 3px; background: transparent; font-size: 12.5px; color: var(--ink-2);">Ya lo leí</button>
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 14px; padding: 16px; background: var(--card); border: 1px solid var(--line); border-radius: 4px;">
+              <div style="width: 46px; height: 68px; flex: none; background: var(--raised); background-image: repeating-linear-gradient(0deg, var(--stripe) 0 1px, transparent 1px 9px); border: 1px solid var(--cover-line); border-radius: 1px;"></div>
+              <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px;">
+                <span style="font-family: 'Instrument Sans', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: -.014em; line-height: 1.3;">Los años</span>
+                <span style="font-size: 13.5px; color: var(--ink-2);">Annie Ernaux</span>
+                <span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .03em; color: var(--ink-2);">2008 · 240 pág. · Memorias</span>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; padding-top: 8px;">
+                  <button style="min-height: 40px; padding: 10px 12px; border: 1px solid var(--line-3); border-radius: 3px; background: transparent; font-size: 12.5px; color: var(--ink-2);">Empezar a leer</button>
+                  <button style="min-height: 40px; padding: 10px 12px; border: 1px solid var(--line-3); border-radius: 3px; background: transparent; font-size: 12.5px; color: var(--ink-2);">Ya lo leí</button>
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 14px; padding: 16px; background: var(--card); border: 1px solid var(--line); border-radius: 4px;">
+              <div style="width: 46px; height: 68px; flex: none; background: var(--raised); background-image: repeating-linear-gradient(0deg, var(--stripe) 0 1px, transparent 1px 9px); border: 1px solid var(--cover-line); border-radius: 1px;"></div>
+              <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px;">
+                <span style="font-family: 'Instrument Sans', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: -.014em; line-height: 1.3;">Sapiens. De animales a dioses</span>
+                <span style="font-size: 13.5px; color: var(--ink-2);">Yuval Noah Harari</span>
+                <span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: .03em; color: var(--ink-2);">2011 · 496 pág. · Historia</span>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; padding-top: 8px;">
+                  <button style="min-height: 40px; padding: 10px 12px; border: 1px solid var(--line-3); border-radius: 3px; background: transparent; font-size: 12.5px; color: var(--ink-2);">Empezar a leer</button>
+                  <button style="min-height: 40px; padding: 10px 12px; border: 1px solid var(--line-3); border-radius: 3px; background: transparent; font-size: 12.5px; color: var(--ink-2);">Ya lo leí</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="flex: none; display: flex; padding: 8px 6px 0; background: var(--bar); border-top: 1px solid var(--line);">
+          <button style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; min-height: 46px; padding: 6px 0; border: 0; background: none; color: var(--ink-2);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5h6.5v13H4zM13.5 5.5H20v13h-6.5z"></path></svg><span style="font-family: 'Space Grotesk', sans-serif; font-size: 10px; letter-spacing: .03em;">Inicio</span></button>
+          <button style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; min-height: 46px; padding: 6px 0; border: 0; background: none; color: var(--ink-2);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h10M4 17h13"></path></svg><span style="font-family: 'Space Grotesk', sans-serif; font-size: 10px; letter-spacing: .03em;">Resaltados</span></button>
+          <button style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; min-height: 46px; padding: 6px 0; border: 0; background: none; color: var(--accent);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3.5h11v17l-5.5-4-5.5 4z"></path></svg><span style="font-family: 'Space Grotesk', sans-serif; font-size: 10px; letter-spacing: .03em;">Listas</span></button>
+          <button style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; min-height: 46px; padding: 6px 0; border: 0; background: none; color: var(--ink-2);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19v-7M12 19V5M19 19v-9"></path></svg><span style="font-family: 'Space Grotesk', sans-serif; font-size: 10px; letter-spacing: .03em;">Stats</span></button>
+          <button style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; min-height: 46px; padding: 6px 0; border: 0; background: none; color: var(--ink-2);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11M7.5 9.5l4.5 4.5 4.5-4.5M4.5 20h15"></path></svg><span style="font-family: 'Space Grotesk', sans-serif; font-size: 10px; letter-spacing: .03em;">Importar</span></button>
+        </div>
+        <div style="flex: none; display: flex; justify-content: center; padding: 4px 0 8px; background: var(--bar);"><span style="width: 134px; height: 5px; border-radius: 999px; background: var(--ink); opacity: .26;"></span></div>
+      </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+/* ─── Tokens de color ─── */
+:root,
+[data-theme="light"] {
+  --paper: #f6f3ec;
+  --raised: #efeae0;
+  --card: #fffdf8;
+  --card-2: #f9f6f0;
+  --chip: #f1efe6;
+  --ink: #2a2521;
+  --ink-hover: #3d3630;
+  --ink-2: #6b6259;
+  --on-ink: #f8f6f1;
+  --line: #e2dcd1;
+  --line-2: #efeae0;
+  --line-3: #ddd6c9;
+  --dash: #d3caba;
+  --hover-line: #c9bfad;
+  --cover-line: #e0d9cc;
+  --cover-shadow: #e7e0d3;
+  --track: #e9e3d8;
+  --accent: #a24a2e;
+  --accent-2: #7e3720;
+  --ok: #2f5d50;
+  --star: #b6aba0;
+  --k-bg: #ede7dc;
+  --k-fg: #6b5b45;
+  --o-bg: #e4ebe7;
+  --o-fg: #3e5f52;
+  --bar: rgba(246, 243, 236, 0.92);
+  --stripe: rgba(42, 37, 33, 0.032);
+  --emboss: rgba(42, 37, 33, 0.05);
+  --emboss-2: rgba(42, 37, 33, 0.07);
+  --overlay: rgba(42, 37, 33, 0.42);
+  --drop: rgba(42, 37, 33, 0.4);
+  --selection: #efdcd3;
+}
+
+[data-theme="dark"] {
+  --paper: #191510;
+  --raised: #221d17;
+  --card: #1e1a15;
+  --card-2: #241f19;
+  --chip: #2a241d;
+  --ink: #efe9df;
+  --ink-hover: #fffaf2;
+  --ink-2: #a89d8e;
+  --on-ink: #191510;
+  --line: #302a22;
+  --line-2: #262019;
+  --line-3: #3a332a;
+  --dash: #3f3830;
+  --hover-line: #4a4238;
+  --cover-line: #2e2820;
+  --cover-shadow: #120f0b;
+  --track: #2a241d;
+  --accent: #d98a66;
+  --accent-2: #eba383;
+  --ok: #7fb49b;
+  --star: #5c5245;
+  --k-bg: #2e2618;
+  --k-fg: #c9b38c;
+  --o-bg: #1c2b24;
+  --o-fg: #93c0aa;
+  --bar: rgba(25, 21, 16, 0.9);
+  --stripe: rgba(239, 233, 223, 0.05);
+  --emboss: rgba(0, 0, 0, 0.4);
+  --emboss-2: rgba(0, 0, 0, 0.5);
+  --overlay: rgba(9, 7, 5, 0.62);
+  --drop: rgba(0, 0, 0, 0.6);
+  --selection: #4a3225;
+}
+
+/* ─── Tailwind v4: tokens como utilidades ─── */
+@theme inline {
+  --color-paper: var(--paper);
+  --color-raised: var(--raised);
+  --color-card: var(--card);
+  --color-card-2: var(--card-2);
+  --color-chip: var(--chip);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-on-ink: var(--on-ink);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-line-3: var(--line-3);
+  --color-dash: var(--dash);
+  --color-track: var(--track);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-ok: var(--ok);
+  --font-serif: "EB Garamond", Georgia, serif;
+  --font-sans: "Instrument Sans", system-ui, sans-serif;
+  --font-mono: "Space Grotesk", ui-monospace, monospace;
+}
+
+/* ─── Animaciones ─── */
+@keyframes lecFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes lecPop {
+  from { opacity: 0; transform: translateY(8px) scale(0.985); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes lecRise {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes lecSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Base ─── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans);
+  background-color: var(--paper);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background-color: var(--selection);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
