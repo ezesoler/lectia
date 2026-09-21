@@ -1,6 +1,6 @@
 # Constitución de Lectia
 
-Versión 1.1.0 · Ratificada 2026-09-11 · Última enmienda 2026-09-21
+Versión 1.1.1 · Ratificada 2026-09-11 · Última enmienda 2026-09-21
 
 Este documento manda sobre planes, tareas e implementación. Cuando un plan contradiga un
 principio de acá, gana el principio o se enmienda la constitución explícitamente.
@@ -79,7 +79,10 @@ Ninguna feature se implementa sin `spec.md` aprobado y `plan.md` derivado.
 
 ### VII. Privacidad por defecto
 
-- Toda tabla lleva `user_id` y RLS activa; ninguna consulta cruza usuarios.
+- Toda tabla de datos de usuario lleva `user_id` y RLS activa; ninguna consulta cruza usuarios.
+- Las tablas compartidas (p. ej. el catálogo bibliográfico) sólo contienen datos públicos, nunca
+  contenido del usuario; tienen RLS activa, lectura para usuarios autenticados y escritura
+  exclusiva del servidor.
 - Sin analítica de terceros que reciba contenido de resaltados. Métricas agregadas y anónimas
   solamente.
 - Los secretos viven en variables de entorno; nunca en el cliente ni en el repositorio.
