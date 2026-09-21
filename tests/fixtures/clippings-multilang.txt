@@ -1,0 +1,30 @@
+Livro Exemplo (Autora Brasil)
+- Seu destaque na página 5 | posição 100-101 | Adicionado em terça-feira, 10 de novembro de 2020 19:07:39
+
+O destaque em português continua sendo lido.
+==========
+Livre Exemple (Auteur France)
+- Votre surlignement à la page 6 | emplacement 110-111 | Ajouté le mardi 10 novembre 2020 19:08:39
+
+Le surlignement en français est bien conservé.
+==========
+Beispielbuch (Autor Deutschland)
+- Ihre Markierung auf Seite 7 | Position 120-121 | Hinzugefügt am Dienstag, 10. November 2020 19:09:39
+
+Die Markierung auf Deutsch bleibt erhalten.
+==========
+Libro Esempio (Autrice Italia)
+- La tua evidenziazione a pagina 8 | posizione 130-131 | Aggiunto il martedì 10 novembre 2020 19:10:39
+
+L'evidenziazione in italiano viene salvata.
+==========
+日本語の本 (著者 太郎)
+- ハイライト ページ 9 | 位置No. 140-141 | 追加日: 2020年11月10日火曜日 19:11:39
+
+日本語の文章はそのまま保存されます。ゴ゛ブ
+==========
+كتاب (مؤلف)
+- Your Highlight on page 10 | location 150-151 | Added on Tuesday, 10 November 2020 7:12:39 PM
+
+النص العربي يُحفَظ كما هو مع الحركات: كِتَاب
+==========

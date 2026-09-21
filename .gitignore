@@ -34,3 +34,10 @@ test-results/
 # Misc
 *.tmp
 *.swp
+
+# Archivos reales de lectores (datos personales; las pruebas que los usan se omiten si faltan)
+docs/files imports/
+tests/fixtures/real/
+
+# Build de los e2e (Supabase local)
+.next-e2e/

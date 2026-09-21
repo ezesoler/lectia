@@ -49,6 +49,9 @@ clases de Tailwind sobre los tokens declarados en la guía.
   una pantalla sin tener que navegar hasta ella. Siguen siendo interactivas. Internamente usan
   el parámetro `?s=` del archivo grande: `lectia-desktop.html?s=stats`,
   `?s=book&book=aurelio`, `?s=search&q=Murakami`, y `&theme=dark` para el tema oscuro.
+- **`mockups/estados-importar/*.html`** cubren los tres desenlaces de una importación fallida:
+  error de formato, error genérico e importación parcial. Cada archivo trae la versión de
+  escritorio, la de mobile y las notas de implementación del estado.
 - **`mockups/mobile/*.html`** son estáticos, una pantalla por archivo, a 390 × 844 (iPhone 14).
   Muestran los patrones mobile: barra inferior de cinco destinos, buscador de ancho completo,
   filtros en fila deslizable, lectura en una sola columna.
@@ -101,3 +104,24 @@ biblioteca, detalle del libro, listas, estadísticas, exportación a Markdown, r
 
 Sincronización automática con el lector, apps nativas, compartir resaltados en público,
 anotaciones colaborativas, OCR de libros en papel, recomendaciones algorítmicas.
+
+---
+
+## Pruebas
+
+| Tipo | Comando | Requisitos |
+|---|---|---|
+| Unitarias (Vitest) | `npm test` | ninguno |
+| Integración (rutas, `import_batch`, RLS, enriquecimiento) | `npm run test:integration` | Docker + Supabase local |
+| End-to-end (Playwright, mobile y desktop) | `npx playwright test` | Docker + Supabase local |
+
+**Supabase local** (una vez): `npx supabase start` y copiar las claves de `npx supabase status -o env`
+a `.env.test.local` con los nombres `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` y
+`SUPABASE_SERVICE_ROLE_KEY` (archivo ignorado por git). Las migraciones de `supabase/migrations/` se
+aplican solas; `npx supabase db reset` las reaplica desde cero. Sin ese archivo, las suites de
+integración y los e2e autenticados se omiten.
+
+Con `.env.test.local` presente, los e2e levantan su propio servidor en `:3100` (directorio de build
+`.next-e2e`, enriquecimiento externo desactivado) y no pisan un `next dev` abierto contra el proyecto real.
+Las pruebas `*.real.test.ts` leen los archivos personales de `docs/files imports/` (ignorada por git) y
+se omiten si no están.

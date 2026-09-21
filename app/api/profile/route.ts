@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { resolveTheme, VALID_THEMES, type Theme } from "@/lib/theme";
-import { createClient as createAdminClient } from "@supabase/supabase-js";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 // PATCH /api/profile — actualizar preferencia de tema
 export async function PATCH(request: Request) {
@@ -76,21 +76,17 @@ export async function DELETE() {
   }
 
   try {
-    // 1. Limpiar archivos de Storage del usuario
-    const { data: files } = await supabase.storage
-      .from("imports")
-      .list(user.id);
+    // 1. Limpiar archivos de Storage del usuario. El bucket `imports` no tiene políticas para
+    //    el usuario (acceso sólo por service_role), así que la limpieza va con el cliente admin.
+    const admin = createAdminClient();
+    const { data: files } = await admin.storage.from("imports").list(user.id);
 
     if (files && files.length > 0) {
       const paths = files.map((f) => `${user.id}/${f.name}`);
-      await supabase.storage.from("imports").remove(paths);
+      await admin.storage.from("imports").remove(paths);
     }
 
     // 2. Borrar el usuario (cascada borra profiles, books, highlights, etc.)
-    const admin = createAdminClient(
-      process.env["NEXT_PUBLIC_SUPABASE_URL"]!,
-      process.env["SUPABASE_SERVICE_ROLE_KEY"]!
-    );
     const { error: deleteError } = await admin.auth.admin.deleteUser(user.id);
 
     if (deleteError) {

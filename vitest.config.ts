@@ -8,6 +8,8 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: [],
+    // e2e (Playwright) e integración (Supabase local) tienen sus propios runners
+    exclude: ["**/node_modules/**", "tests/e2e/**", "tests/integration/**"],
   },
   resolve: {
     alias: {

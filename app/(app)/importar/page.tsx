@@ -1,5 +1,29 @@
+import { ImportScreen, type InitialImports } from "@/components/import/import-screen";
 import { TopBar } from "@/components/top-bar";
+import { removeImportObjects } from "@/lib/import/http";
+import { expireStaleImports } from "@/lib/import/stale";
+import { IMPORT_COLUMNS, toImportStatus, type ImportRow } from "@/lib/import/status";
+import type { ImportSource, ImportStatus } from "@/lib/import/types";
 import { createClient } from "@/lib/supabase/server";
+
+// El estado de cada origen cambia con cada importación: nunca se cachea
+export const dynamic = "force-dynamic";
+
+async function latestImport(
+  db: Awaited<ReturnType<typeof createClient>>,
+  userId: string,
+  source: ImportSource
+): Promise<ImportStatus | null> {
+  const { data } = await db
+    .from("imports")
+    .select(IMPORT_COLUMNS)
+    .eq("user_id", userId)
+    .eq("source", source)
+    .order("started_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  return data ? toImportStatus(data as unknown as ImportRow) : null;
+}
 
 export default async function ImportarPage() {
   const supabase = await createClient();
@@ -13,24 +37,19 @@ export default async function ImportarPage() {
     .eq("id", user!.id)
     .single();
 
+  // FR-026: al entrar se muestra el último estado de cada origen; si un trabajo murió, se libera
+  await expireStaleImports({ db: supabase, removeObjects: removeImportObjects }, user!.id);
+  const [kindle, kobo] = await Promise.all([
+    latestImport(supabase, user!.id, "kindle"),
+    latestImport(supabase, user!.id, "kobo"),
+  ]);
+  const initial: InitialImports = { kindle, kobo };
+
   return (
     <div className="min-h-screen bg-paper">
       <TopBar displayName={profile?.display_name ?? null} />
-      <main className="max-w-[1180px] mx-auto px-4 py-8">
-        <h2
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "clamp(25px, 5vw, 32px)",
-            fontWeight: 600,
-            letterSpacing: "-0.025em",
-            color: "var(--ink)",
-          }}
-        >
-          Importar
-        </h2>
-        <p style={{ color: "var(--ink-2)", marginTop: "8px", fontSize: "15px" }}>
-          Paso 1 de 1 — Conectá tu lector o subí el archivo de resaltados.
-        </p>
+      <main>
+        <ImportScreen initial={initial} />
       </main>
     </div>
   );
