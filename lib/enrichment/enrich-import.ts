@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import type { StoreOutcome } from "@/lib/covers/types";
 import type { ImportedBook } from "@/lib/import/run-import";
 import { enrichBook } from "./enrich-book";
 import type { EnrichDeps, EnrichResult, EnrichStatus } from "./types";
@@ -18,7 +19,10 @@ export interface EnrichImportInput {
   now?: () => number;
 }
 
-export type EnrichSummary = Record<EnrichStatus | "skipped" | "failed", number>;
+export interface EnrichSummary extends Record<EnrichStatus | "skipped" | "failed", number> {
+  /** Resultado del guardado de portadas (feature 004), aparte del estado de metadatos de arriba. */
+  covers: Record<StoreOutcome | "none", number>;
+}
 
 const CHUNK = 100;
 
@@ -53,6 +57,7 @@ export async function enrichImportBooks(input: EnrichImportInput): Promise<Enric
     not_found: 0,
     skipped: 0,
     failed: 0,
+    covers: { stored: 0, pending: 0, unavailable: 0, skipped: 0, none: 0 },
   };
 
   const queue = await pendingBooks(db, userId, input.books);
@@ -76,6 +81,7 @@ export async function enrichImportBooks(input: EnrichImportInput): Promise<Enric
         continue;
       }
       summary[result.status] += 1;
+      summary.covers[result.cover] += 1;
       if (result.catalogId) {
         const { error } = await db
           .from("books")

@@ -5,7 +5,8 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { createAdminClient } from "@/lib/supabase/admin";
 import type { CatalogEntry, CatalogStore, NewCatalogEntry } from "./types";
 
-const COLUMNS = "id, isbn, title, author, title_key, author_key, cover_url, category, pages, sources";
+const COLUMNS =
+  "id, isbn, title, author, title_key, author_key, cover_origin_url, cover_status, cover_source, cover_attempts, cover_checked_at, category, pages, sources";
 
 export function createCatalogStore(admin: SupabaseClient = createAdminClient()): CatalogStore {
   async function findByKeys(titleKey: string, authorKey: string) {
@@ -37,7 +38,14 @@ export function createCatalogStore(admin: SupabaseClient = createAdminClient()):
       if (entry.sources.length === 0) {
         throw new Error("book_catalog: se necesita al menos una fuente externa");
       }
-      const { data, error } = await admin.from("book_catalog").insert(entry).select("id").single();
+      // cover_status se deriva acá, no lo decide el llamador: 'pending' sólo si hay procedencia
+      // (data-model.md: 'none' nunca avanza salvo que el enriquecimiento halle una portada)
+      const cover_status = entry.cover_origin_url ? "pending" : "none";
+      const { data, error } = await admin
+        .from("book_catalog")
+        .insert({ ...entry, cover_status })
+        .select("id")
+        .single();
       if (!error && data) return data.id as string;
 
       // 23505: otro import ganó la carrera por el índice único (ISBN o título+autor)

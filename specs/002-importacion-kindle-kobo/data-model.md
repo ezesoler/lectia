@@ -65,6 +65,11 @@ create unique index highlights_user_hash on highlights (user_id, hash);
 | `title_key` | `text not null` | clave usada para la búsqueda que acertó |
 | `author_key` | `text not null` | |
 | `cover_url` | `text` | `null` si ninguna API lo dio |
+
+> **Nota (feature 004, 2026-09-22)**: esta columna se renombró a `cover_origin_url` y pasó a
+> ser sólo procedencia; la portada que se muestra es una copia propia servida por
+> `GET /api/covers/{id}`. Ver `specs/004-cover-image-storage/`. El resto de este documento queda
+> como registro histórico de la 002 y no se actualiza retroactivamente.
 | `category` | `text` | idem |
 | `pages` | `int` | idem |
 | `sources` | `text[] not null` | subconjunto de `{open_library, google_books}`; nunca vacío |

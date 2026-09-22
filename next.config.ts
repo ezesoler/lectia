@@ -10,12 +10,9 @@ const nextConfig: NextConfig = {
     "/api/imports/[id]/parse": ["./node_modules/sql.js/dist/sql-wasm.wasm"],
   },
   images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "lh3.googleusercontent.com" },
-      // Portadas del enriquecimiento de metadatos (feature 002)
-      { protocol: "https", hostname: "covers.openlibrary.org" },
-      { protocol: "https", hostname: "books.google.com" },
-    ],
+    // Las portadas se sirven desde el propio dominio (/api/covers/{id}, feature 004): ningún
+    // host externo debe mostrar imágenes directamente (SC-005).
+    remotePatterns: [{ protocol: "https", hostname: "lh3.googleusercontent.com" }],
   },
 };
 

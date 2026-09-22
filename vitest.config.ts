@@ -9,7 +9,8 @@ export default defineConfig({
     globals: true,
     setupFiles: [],
     // e2e (Playwright) e integración (Supabase local) tienen sus propios runners
-    exclude: ["**/node_modules/**", "tests/e2e/**", "tests/integration/**"],
+    // .kilo/** es el worktree de otra herramienta (Kilo Code), con su propia copia del repo
+    exclude: ["**/node_modules/**", "tests/e2e/**", "tests/integration/**", ".kilo/**"],
   },
   resolve: {
     alias: {

@@ -272,6 +272,9 @@ que el catálogo compartido se calienta. Se documenta; se recomienda acotar SC-0
 "bibliotecas de hasta ~80 libros" o aceptar el incumplimiento en importaciones grandes iniciales.
 
 **Decisiones menores**:
+- **Nota (feature 004, 2026-09-22)**: `book_catalog.cover_url` se renombró a
+  `cover_origin_url` (sólo procedencia); la portada se sirve por `GET /api/covers/{id}` desde
+  una copia propia. Ver `specs/004-cover-image-storage/`.
 - `books.cover_url/pages/genre` no se rellenan; se lee vía `catalog_id` (evita dos fuentes de
   verdad). Esas columnas quedan para libros manuales (feature de búsqueda).
 - Una entrada de catálogo parcial no se reconsulta en importaciones siguientes (v1).

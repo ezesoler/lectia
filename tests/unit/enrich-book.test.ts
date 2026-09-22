@@ -4,6 +4,7 @@ import { enrichBook, isAcceptableMatch, pickPages } from "@/lib/enrichment/enric
 import { googleBooksUrl } from "@/lib/enrichment/google-books";
 import { openLibraryUrl } from "@/lib/enrichment/open-library";
 import type { ApiCandidate, BookQuery, CatalogEntry, CatalogStore, NewCatalogEntry } from "@/lib/enrichment/types";
+import type { CatalogCoverDb, CoverStore } from "@/lib/covers/types";
 import { buildKeys } from "@/lib/import/normalize";
 
 function query(title: string, author: string, isbn?: string): BookQuery {
@@ -55,6 +56,24 @@ const gbItem = (over: Record<string, unknown> = {}) => ({
   ],
 });
 
+/**
+ * Fake de lib/covers/*: estas pruebas cubren la fusión de metadatos, no el guardado de
+ * portadas (eso lo cubre tests/unit/store-cover.test.ts). markUnavailable/markStored no
+ * tocan nada real.
+ */
+function fakeCovers() {
+  const bucket: CoverStore = {
+    upload: vi.fn(async (): Promise<"created" | "exists"> => "created"),
+    download: vi.fn(async () => null),
+  };
+  const db: CatalogCoverDb = {
+    markStored: vi.fn(async () => undefined),
+    markPending: vi.fn(async () => undefined),
+    markUnavailable: vi.fn(async () => undefined),
+  };
+  return { bucket, db };
+}
+
 type Route = (url: string) => Response | Promise<Response>;
 function makeDeps(routes: { ol?: Route; gb?: Route }, catalog: CatalogStore) {
   const sleeps: number[] = [];
@@ -62,13 +81,20 @@ function makeDeps(routes: { ol?: Route; gb?: Route }, catalog: CatalogStore) {
   const fetchImpl = vi.fn(async (input: string | URL | Request) => {
     const url = String(input);
     urls.push(url);
-    if (url.includes("openlibrary.org")) return (routes.ol ?? (() => json({ docs: [] })))(url);
-    if (url.includes("googleapis.com")) return (routes.gb ?? (() => json({})))(url);
+    const host = new URL(url).hostname;
+    if (host === "openlibrary.org") return (routes.ol ?? (() => json({ docs: [] })))(url);
+    if (host === "www.googleapis.com") return (routes.gb ?? (() => json({})))(url);
+    // Descarga de portada (lib/covers/candidates.ts): sin fixture propia, "no disponible" por
+    // defecto. Cubrir el guardado real es tarea de store-cover.test.ts, no de este archivo.
+    if (host === "covers.openlibrary.org" || host === "books.google.com") {
+      return new Response(null, { status: 404 });
+    }
     throw new Error(`URL inesperada ${url}`);
   }) as unknown as typeof fetch;
   return {
     deps: {
       catalog,
+      covers: fakeCovers(),
       fetchImpl,
       sleep: async (ms: number) => void sleeps.push(ms),
       schedule: <T>(task: () => Promise<T>) => task(),
@@ -91,7 +117,7 @@ describe("enrichBook — flujo", () => {
     const { store } = fakeCatalog({ id: "cat-9" } as CatalogEntry);
     const { deps, fetchImpl } = makeDeps({}, store);
 
-    expect(await enrichBook(HABITOS, deps)).toEqual({ status: "catalog_hit", catalogId: "cat-9" });
+    expect(await enrichBook(HABITOS, deps)).toEqual({ status: "catalog_hit", catalogId: "cat-9", cover: "none" });
     expect(fetchImpl).not.toHaveBeenCalled();
   });
 
@@ -101,12 +127,12 @@ describe("enrichBook — flujo", () => {
 
     const result = await enrichBook(HABITOS, deps);
 
-    expect(result).toEqual({ status: "enriched", catalogId: "cat-1" });
+    expect(result).toEqual({ status: "enriched", catalogId: "cat-1", cover: "unavailable" });
     expect(saved[0]).toMatchObject({
       title: "Hábitos atómicos",
       title_key: "habitos atomicos",
       author_key: "james clear",
-      cover_url: "https://covers.openlibrary.org/b/id/12345-L.jpg",
+      cover_origin_url: "https://covers.openlibrary.org/b/id/12345-L.jpg",
       category: "Self-help",
       pages: 320,
       sources: ["open_library"],
@@ -128,7 +154,7 @@ describe("enrichBook — flujo", () => {
 
     expect(result.status).toBe("enriched");
     expect(saved[0]).toMatchObject({
-      cover_url: "https://covers.openlibrary.org/b/id/12345-L.jpg", // primera API que lo provee
+      cover_origin_url: "https://covers.openlibrary.org/b/id/12345-L.jpg", // primera API que lo provee
       category: "Self-Help / General",
       pages: 306,
     });
@@ -152,7 +178,7 @@ describe("enrichBook — flujo", () => {
     await enrichBook(HABITOS, deps);
     expect(saved[0]).toMatchObject({
       pages: 328,
-      cover_url: "https://covers.openlibrary.org/b/id/55-L.jpg",
+      cover_origin_url: "https://covers.openlibrary.org/b/id/55-L.jpg",
       category: "Hábitos",
     });
   });
@@ -169,7 +195,7 @@ describe("enrichBook — flujo", () => {
     const { store, saved } = fakeCatalog();
     const { deps } = makeDeps({ gb: () => json(gbItem()) }, store);
     await enrichBook(HABITOS, deps);
-    expect(saved[0]!.cover_url).toBe("https://books.google.com/cover.jpg");
+    expect(saved[0]!.cover_origin_url).toBe("https://books.google.com/cover.jpg");
     expect(saved[0]!.sources).toEqual(["google_books"]);
   });
 
@@ -187,7 +213,7 @@ describe("enrichBook — flujo", () => {
   it("sin datos en ninguna API: not_found y NO se escribe en book_catalog (FR-018)", async () => {
     const { store } = fakeCatalog();
     const { deps } = makeDeps({}, store);
-    expect(await enrichBook(HABITOS, deps)).toEqual({ status: "not_found" });
+    expect(await enrichBook(HABITOS, deps)).toEqual({ status: "not_found", cover: "none" });
     expect(store.save).not.toHaveBeenCalled();
   });
 
@@ -233,6 +259,23 @@ describe("enrichBook — flujo", () => {
       const sent = [...params.keys()].filter((k) => !["fields", "limit", "maxResults", "key"].includes(k));
       expect(sent.every((k) => ["title", "author", "q"].includes(k))).toBe(true);
     }
+  });
+});
+
+describe("enrichBook — un fallo al guardar la portada nunca rompe el resultado (FR-011, US4)", () => {
+  it("una excepción dentro de storeCover se atrapa: el libro sigue devolviendo su estado normal con cover:'none'", async () => {
+    const { store, saved } = fakeCatalog();
+    const { deps } = makeDeps({ ol: () => json(olDoc()) }, store);
+    // Simula un fallo al escribir el resultado de la portada (p. ej. la base cayó justo ahí)
+    (deps.covers.db.markUnavailable as ReturnType<typeof vi.fn>).mockRejectedValueOnce(
+      new Error("DB caída")
+    );
+
+    const result = await enrichBook(HABITOS, deps);
+
+    expect(result.status).toBe("enriched"); // el merge de metadatos no se vio afectado
+    expect(result.cover).toBe("none"); // el fallo al guardar la portada se absorbe, no se propaga
+    expect(saved[0]).toBeDefined(); // el catálogo sí se guardó igual
   });
 });
 
@@ -332,7 +375,7 @@ describe("enrichBook — reintentos con backoff (FR-027)", () => {
 
 describe("pickPages — páginas robustas entre ediciones", () => {
   const withPages = (...pages: (number | undefined)[]): ApiCandidate[] =>
-    pages.map((p) => ({ title: "T", authors: [], viaIsbn: false, ...(p !== undefined ? { pages: p } : {}) }));
+    pages.map((p) => ({ title: "T", authors: [], viaIsbn: false, coverSource: "open_library" as const, ...(p !== undefined ? { pages: p } : {}) }));
 
   it("toma la mediana y no la edición atípica (caso real: 980 / 398 / 398)", () => {
     expect(pickPages(withPages(980, 398, 398))).toBe(398);
@@ -386,7 +429,7 @@ describe("enrichBook — páginas", () => {
 });
 
 describe("isAcceptableMatch", () => {
-  const cand = (title: string, authors: string[], viaIsbn = false): ApiCandidate => ({ title, authors, viaIsbn });
+  const cand = (title: string, authors: string[], viaIsbn = false): ApiCandidate => ({ title, authors, viaIsbn, coverSource: "open_library" });
 
   it("acepta un título con subtítulo si tiene al menos 2 palabras", () => {
     const q = query("Steve Jobs: Lecciones de liderazgo", "Walter Isaacson");

@@ -52,8 +52,10 @@ export async function searchGoogleBooks(
         title: info.title,
         authors: info.authors ?? [],
         viaIsbn: Boolean(query.isbn),
+        coverSource: "google_books",
         ...(isbn ? { isbn } : {}),
-        ...(cover ? { coverUrl: toHttps(cover) } : {}),
+        // Sólo procedencia: lib/covers/candidates.ts deriva de acá zoom=0/4/3/2 (research.md E3/E4)
+        ...(cover ? { coverOrigin: toHttps(cover) } : {}),
         ...(category ? { category: category.trim() } : {}),
         ...(info.pageCount && info.pageCount > 0 ? { pages: info.pageCount } : {}),
       },

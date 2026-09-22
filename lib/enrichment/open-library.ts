@@ -60,8 +60,10 @@ export async function searchOpenLibrary(
         title: doc.title,
         authors: doc.author_name ?? [],
         viaIsbn: Boolean(query.isbn),
+        coverSource: "open_library",
         ...(isbn ? { isbn } : {}),
-        ...(doc.cover_i ? { coverUrl: `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg` } : {}),
+        // Sólo procedencia: lib/covers/candidates.ts deriva de acá el original y el -L (research.md E1)
+        ...(doc.cover_i ? { coverOrigin: `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg` } : {}),
         ...(subject ? { category: subject.trim() } : {}),
         ...(doc.number_of_pages_median && doc.number_of_pages_median > 0
           ? { pages: Math.round(doc.number_of_pages_median) }

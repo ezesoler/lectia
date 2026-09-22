@@ -8,6 +8,8 @@ import {
   notFound,
   unauthorized,
 } from "@/lib/import/http";
+import { createCatalogCoverDb } from "@/lib/covers/catalog-cover-db";
+import { createCoverStorage } from "@/lib/covers/storage";
 import { createCatalogStore } from "@/lib/enrichment/catalog";
 import { enrichImportBooks } from "@/lib/enrichment/enrich-import";
 import { parsers } from "@/lib/import/parsers";
@@ -75,7 +77,10 @@ export async function POST(_request: Request, { params }: Params) {
     );
 
     // FR-019: el enriquecimiento va después del `done` y no lo retrasa ni lo cambia. Un fallo
-    // acá nunca afecta a la importación ya visible para el usuario.
+    // acá nunca afecta a la importación ya visible para el usuario. Esto también cubre el
+    // guardado de portadas (feature 004): enrichBook ya atrapa los errores de storeCover antes
+    // de devolver su resultado (nunca lanza por eso), y este try/catch es la segunda red de
+    // contención por si algo más falla (verificado T039/T040).
     // ENRICHMENT_DISABLED=1: para los e2e, que no deben salir a Open Library/Google Books
     const enrichmentOff = process.env["ENRICHMENT_DISABLED"] === "1";
     if (outcome.state === "done" && outcome.books.length > 0 && !enrichmentOff) {
@@ -84,7 +89,10 @@ export async function POST(_request: Request, { params }: Params) {
           userId,
           db: userDb,
           books: outcome.books,
-          deps: { catalog: createCatalogStore() },
+          deps: {
+            catalog: createCatalogStore(),
+            covers: { bucket: createCoverStorage(), db: createCatalogCoverDb() },
+          },
         });
       } catch (err) {
         console.error(`[enrich] ${id}: ${(err as Error).message}`);

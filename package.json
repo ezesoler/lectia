@@ -11,7 +11,9 @@
     "test:e2e": "playwright test",
     "test:integration": "vitest run --config vitest.integration.config.ts",
     "fixtures:kobo": "vite-node tests/fixtures/build-kobo.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "fixtures:covers": "vite-node tests/fixtures/covers/make-fixtures.ts",
+    "covers:backfill": "vite-node scripts/backfill-covers.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.0",

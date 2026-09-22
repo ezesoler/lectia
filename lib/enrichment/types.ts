@@ -1,3 +1,5 @@
+import type { CatalogCoverDb, CoverSource, CoverStatus, CoverStore, StoreOutcome } from "@/lib/covers/types";
+
 /** Libro a enriquecer (sale del import; sólo título, autor e ISBN viajan a las APIs externas). */
 export interface BookQuery {
   title: string;
@@ -12,7 +14,10 @@ export interface ApiCandidate {
   title: string;
   authors: string[];
   isbn?: string;
-  coverUrl?: string;
+  /** URL de procedencia de la portada en esta API; nunca se muestra directamente (feature 004). */
+  coverOrigin?: string;
+  /** Fija por módulo (open-library.ts siempre 'open_library', google-books.ts siempre 'google_books'). */
+  coverSource: CoverSource;
   category?: string;
   pages?: number;
   /** true si se encontró buscando por ISBN: el ISBN es autoritativo y no exige coincidencia de título. */
@@ -21,7 +26,7 @@ export interface ApiCandidate {
 
 export type ApiSource = "open_library" | "google_books";
 
-/** Fila de `book_catalog` tal como la maneja el enriquecimiento. */
+/** Fila de `book_catalog` tal como la maneja el enriquecimiento (incluye las columnas de portada). */
 export interface CatalogEntry {
   id: string;
   isbn: string | null;
@@ -29,13 +34,19 @@ export interface CatalogEntry {
   author: string;
   title_key: string;
   author_key: string;
-  cover_url: string | null;
+  /** Sólo procedencia (feature 004): nunca se usa para mostrar la imagen. */
+  cover_origin_url: string | null;
+  cover_status: CoverStatus;
+  cover_source: CoverSource | null;
+  cover_attempts: number;
+  cover_checked_at: string | null;
   category: string | null;
   pages: number | null;
   sources: ApiSource[];
 }
 
-export type NewCatalogEntry = Omit<CatalogEntry, "id">;
+/** Al insertar, `cover_status` lo deriva `catalog.ts` de `cover_origin_url`; attempts/checked_at usan el default de la base. */
+export type NewCatalogEntry = Omit<CatalogEntry, "id" | "cover_status" | "cover_attempts" | "cover_checked_at">;
 
 /** Único punto de acceso a `book_catalog` (escritura sólo con service_role). */
 export interface CatalogStore {
@@ -55,6 +66,8 @@ export interface HttpDeps {
 
 export interface EnrichDeps extends HttpDeps {
   catalog: CatalogStore;
+  /** Guardado de portadas (feature 004); ver lib/covers/store-cover.ts. */
+  covers: { bucket: CoverStore; db: CatalogCoverDb };
 }
 
 export type EnrichStatus = "catalog_hit" | "enriched" | "partial" | "not_found";
@@ -62,4 +75,6 @@ export type EnrichStatus = "catalog_hit" | "enriched" | "partial" | "not_found";
 export interface EnrichResult {
   status: EnrichStatus;
   catalogId?: string;
+  /** `'none'` si el libro no tiene (ni tuvo nunca) una portada candidata. */
+  cover: StoreOutcome | "none";
 }

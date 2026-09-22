@@ -14,7 +14,8 @@ cruza usuarios. Esquema en `public`.
 | `highlights` | resaltado o nota de un libro, con su origen |
 | `list_items` | pertenencia de un libro a una lista (deseo leer / leyendo / leído) |
 | `imports` | ejecución de una importación, con su resultado, progreso y errores |
-| `book_catalog` | catálogo bibliográfico **compartido** (sin `user_id`): portada, categoría y páginas obtenidas de Open Library / Google Books |
+| `book_catalog` | catálogo bibliográfico **compartido** (sin `user_id`): categoría, páginas y una portada propia (copia guardada en `covers`, no una URL externa) |
+| `covers` (Storage) | bucket privado y permanente con la copia propia de cada portada; un objeto por libro de `book_catalog`, con la ruta `{id}` |
 
 ---
 
@@ -123,7 +124,21 @@ create table book_catalog (
   author     text not null,
   title_key  text not null,
   author_key text not null,
-  cover_url  text,
+  -- cover_origin_url: sólo procedencia (de dónde se descargó la portada); nunca se usa para
+  -- mostrar la imagen. La copia propia vive en el bucket `covers`, ruta = book_catalog.id.
+  cover_origin_url text,
+  cover_status     text not null default 'none'
+                     check (cover_status in ('none', 'pending', 'stored', 'unavailable')),
+  cover_path       text,               -- = id cuando cover_status = 'stored'
+  cover_format     text check (cover_format in ('jpeg', 'png', 'webp')),
+  cover_width      int,
+  cover_height     int,
+  cover_bytes      int,
+  cover_sha256     text,               -- huella de integridad; también el ETag de GET /api/covers/{id}
+  cover_source     text check (cover_source in ('open_library', 'google_books')),
+  cover_attempts   int not null default 0,
+  cover_checked_at timestamptz,
+  cover_stored_at  timestamptz,
   category   text,
   pages      int,
   sources    text[] not null check (cardinality(sources) > 0
@@ -133,6 +148,11 @@ create table book_catalog (
 );
 create unique index on book_catalog (isbn) where isbn is not null;
 create unique index on book_catalog (title_key, author_key);
+
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('covers', 'covers', false, 10485760, array['image/jpeg', 'image/png', 'image/webp'])
+on conflict (id) do nothing;
+-- Sin políticas en storage.objects: sólo service_role; se lee por GET /api/covers/{id}.
 
 create index on books (user_id, imported_at desc);
 create index on highlights (user_id, book_id);
@@ -200,9 +220,14 @@ normalize(s) = s.normalize('NFD')
    sin políticas para el usuario) y se borran al terminar el parseo (éxito o error).
 6. **Una importación activa por origen**: lo garantiza un índice único parcial; un import `queued`/`parsing`
    sin latido (5 min / 2 min) se marca `error` (`ERR_IMPORT_5031`) de forma perezosa.
-7. **Enriquecimiento**: después del `done`, cada libro busca portada, categoría y páginas en `book_catalog`,
+7. **Enriquecimiento**: después del `done`, cada libro busca categoría, páginas y portada en `book_catalog`,
    luego Open Library y luego Google Books (merge por campo). Sin datos de una API no se crea fila en
    `book_catalog`; el libro se guarda igual con `catalog_id = null`.
+8. **Portada propia**: la portada nunca se muestra desde Open Library o Google Books. Tras
+   encontrarla, el servidor la descarga y la guarda como copia propia en el bucket `covers`
+   (mayor resolución disponible, bytes idénticos a los recibidos); `cover_origin_url` queda sólo
+   como procedencia. Se sirve por `GET /api/covers/{id}`, que exige sesión y nunca sirve desde el
+   servicio externo. Detalle completo en `specs/004-cover-image-storage/`.
 
 ---
 
@@ -213,6 +238,7 @@ normalize(s) = s.normalize('NFD')
 | `POST /api/imports` | `{ source, fileName, fileSize }` | `201 { importId, upload: { bucket, path, token } }` (URL firmada de subida) |
 | `POST /api/imports/{id}/parse` | — (el archivo ya está subido) | `202 { state: 'parsing' }` — el trabajo sigue en segundo plano |
 | `GET /api/imports/{id}` | — | estado, progreso, contadores, `discardBreakdown` y, si falló, `errorCode` / `errorMessage` / `errorDetails` |
+| `GET /api/covers/{id}` | — | bytes de la portada propia (`image/jpeg`, `image/png` o `image/webp`), con `ETag`/`Cache-Control` inmutable; `404` si el libro no tiene copia propia |
 | `DELETE /api/imports/{id}` | — | `204`; sólo desde `queued` (subida fallida) |
 | `GET /api/books` | `source?, sort?, q?` | libros con recuento de resaltados |
 | `GET /api/books/{id}` | `filter?` | libro + resaltados |

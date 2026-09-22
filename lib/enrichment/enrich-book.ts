@@ -1,3 +1,5 @@
+import { storeCover } from "@/lib/covers/store-cover";
+import type { CatalogCoverRow, CoverSource, StoreOutcome } from "@/lib/covers/types";
 import { normalize } from "@/lib/import/normalize";
 import { searchGoogleBooks } from "./google-books";
 import { searchOpenLibrary } from "./open-library";
@@ -49,7 +51,8 @@ export function isAcceptableMatch(
 }
 
 interface Merged {
-  coverUrl?: string;
+  /** La portada sale de una sola API: la primera que la tenga (mismo criterio que category/pages). */
+  cover?: { origin: string; source: CoverSource };
   category?: string;
   pages?: number;
   title?: string;
@@ -82,16 +85,19 @@ export function pickPages(candidates: ApiCandidate[]): number | undefined {
 /**
  * Toma de los candidatos de UNA API sólo los campos que todavía faltan (FR-016: cada campo sale
  * de la primera API que lo provea) y registra la fuente si aportó alguno. Portada y categoría
- * salen del primer candidato que las tenga; las páginas, de la mediana de los candidatos.
+ * salen del primer candidato que las tenga; las páginas, de la mediana de los candidatos. La
+ * portada sigue el mismo criterio: Open Library se consulta primero, así que sólo llega a
+ * tomarse de Google Books cuando Open Library no ofreció ninguna para este libro (FR-006/FR-018
+ * de la feature 004).
  */
 function mergeFromApi(merged: Merged, candidates: ApiCandidate[], source: ApiSource): void {
   let contributed = false;
   let firstContributor: ApiCandidate | undefined;
 
-  if (merged.coverUrl === undefined) {
-    const c = candidates.find((x) => x.coverUrl);
-    if (c) {
-      merged.coverUrl = c.coverUrl;
+  if (merged.cover === undefined) {
+    const c = candidates.find((x) => x.coverOrigin);
+    if (c?.coverOrigin) {
+      merged.cover = { origin: c.coverOrigin, source: c.coverSource };
       contributed = true;
       firstContributor ??= c;
     }
@@ -122,16 +128,36 @@ function mergeFromApi(merged: Merged, candidates: ApiCandidate[], source: ApiSou
 }
 
 const missingFields = (m: Merged) =>
-  m.coverUrl === undefined || m.category === undefined || m.pages === undefined;
+  m.cover === undefined || m.category === undefined || m.pages === undefined;
+
+/** Envuelve storeCover: un fallo al guardar la portada nunca debe afectar el resto del enriquecimiento (FR-011). */
+async function attemptCover(deps: EnrichDeps, row: CatalogCoverRow): Promise<StoreOutcome | "none"> {
+  try {
+    return await storeCover(row, {
+      bucket: deps.covers.bucket,
+      db: deps.covers.db,
+      ...(deps.fetchImpl ? { fetchImpl: deps.fetchImpl } : {}),
+      ...(deps.sleep ? { sleep: deps.sleep } : {}),
+    });
+  } catch (err) {
+    console.error(`[enrich] portada de ${row.id}: ${(err as Error).message}`);
+    return "none";
+  }
+}
 
 /**
- * Catálogo → Open Library → Google Books (sólo para los campos que falten) → merge → catálogo.
- * El merge toma cada campo de la primera API que lo provea (FR-016). Sin ningún dato de una
- * API no se escribe nada en `book_catalog` (FR-017/FR-018). Nunca lanza por fallos de las APIs.
+ * Catálogo → Open Library → Google Books (sólo para los campos que falten) → merge → catálogo →
+ * portada. El merge toma cada campo de la primera API que lo provea (FR-016). Sin ningún dato de
+ * una API no se escribe nada en `book_catalog` (FR-017/FR-018). Nunca lanza por fallos de las
+ * APIs ni por fallos al guardar la portada (FR-011): siempre devuelve un `EnrichResult`.
  */
 export async function enrichBook(query: BookQuery, deps: EnrichDeps): Promise<EnrichResult> {
   const existing = await deps.catalog.find(query);
-  if (existing) return { status: "catalog_hit", catalogId: existing.id };
+  if (existing) {
+    // El libro ya está enriquecido; sólo se reintenta la portada si quedó pendiente (FR-012)
+    const cover = existing.cover_status === "pending" ? await attemptCover(deps, existing) : "none";
+    return { status: "catalog_hit", catalogId: existing.id, cover };
+  }
 
   const merged: Merged = { authors: [], sources: new Set() };
   const search = { title: query.title, author: query.author, ...(query.isbn ? { isbn: query.isbn } : {}) };
@@ -142,7 +168,7 @@ export async function enrichBook(query: BookQuery, deps: EnrichDeps): Promise<En
     mergeFromApi(merged, acceptedCandidates(query, await searchGoogleBooks(search, deps)), "google_books");
   }
 
-  if (merged.sources.size === 0) return { status: "not_found" };
+  if (merged.sources.size === 0) return { status: "not_found", cover: "none" };
 
   const entry: NewCatalogEntry = {
     isbn: query.isbn ?? merged.isbn ?? null,
@@ -150,11 +176,24 @@ export async function enrichBook(query: BookQuery, deps: EnrichDeps): Promise<En
     author: merged.authors.length > 0 ? merged.authors.join(", ") : query.author,
     title_key: query.titleKey,
     author_key: query.authorKey,
-    cover_url: merged.coverUrl ?? null,
+    cover_origin_url: merged.cover?.origin ?? null,
+    cover_source: merged.cover?.source ?? null,
     category: merged.category ?? null,
     pages: merged.pages ?? null,
     sources: [...merged.sources],
   };
   const catalogId = await deps.catalog.save(entry);
-  return { status: missingFields(merged) ? "partial" : "enriched", catalogId };
+
+  const cover = entry.cover_origin_url
+    ? await attemptCover(deps, {
+        id: catalogId,
+        cover_origin_url: entry.cover_origin_url,
+        cover_source: entry.cover_source,
+        cover_status: "pending",
+        cover_attempts: 0,
+        cover_checked_at: null,
+      })
+    : "none";
+
+  return { status: missingFields(merged) ? "partial" : "enriched", catalogId, cover };
 }
